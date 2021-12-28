@@ -6,6 +6,7 @@ module.exports = {
   // Electron Entrypoint
   entry: './src/main.ts',
   target: 'electron-main',
+  devtool: "source-map",
   resolve: {
     alias: {
       ['@']: path.resolve(__dirname, 'src')
