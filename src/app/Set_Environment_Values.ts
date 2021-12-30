@@ -1,5 +1,7 @@
 import { Get_Launcher_Release, Get_Compiler_Release, RESPONSE } from "./Utils";
 import { join } from "path";
+import { spawn } from "child_process";
+import { exec } from "child_process";
 
 export async function Check_For_Environment_Values(): Promise<RESPONSE>{
 
@@ -14,10 +16,12 @@ export async function Check_For_Environment_Values(): Promise<RESPONSE>{
         //if it does not exist then we need to place Evie.exe in the PATH variable.
         if (!process.env.PATH!.split(';').some(i => i.endsWith(process.cwd()))){
             //we need to add the path to the PATH variable.
-            process.env.PATH = process.env.PATH + ";" + process.cwd()
+            var path = "\\\"$Env:Path;" + process.cwd() + ";\\\"";
+            exec("powershell -C \"[Environment]::SetEnvironmentVariable(\\\"Path\\\", " + path + ", \\\"User\\\")\"");
         }
         if (!process.env["Repo-Dir"]){
-            process.env["Repo-Dir"] = join(process.cwd(), ".Repos")
+            exec("powershell -C \"setx Repo-Dir \\\"" + join(process.cwd(), ".Repos\\\"\""))
+            //process.env["Repo-Dir"] = join(process.cwd(), ".Repos")
         }
         
     }

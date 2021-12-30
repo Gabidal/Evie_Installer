@@ -30,7 +30,7 @@ async function Factory(Set_Phase: any, Set_Description: any, Update_Progress: an
     Set_Phase(i.name)
     Update_Progress(Index)
     console.log(i.name, Response)
-    await Sleep(1000)
+    await Sleep(300)
     Index++
     if (Response == RESPONSE.NEED_UPDATE_LAUNCHER){
       Set_Description("An update was found for this launcher, an update is required to continue")

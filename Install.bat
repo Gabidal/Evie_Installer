@@ -1,2 +1,2 @@
 @echo off
-npm run build && electron-packager.cmd ./ Evie_Installer --platform=win32 --arch=x64 --overwrite && copy Depencies\x86_ld.exe Evie_Installer-win32-x64 && copy Depencies\x86_as.exe Evie_Installer-win32-x64 && mkdir "Evie_installer-win32-x64/.Repos"
+npm run build && electron-packager.cmd ./ Evie_Installer --platform=win32 --arch=x64 --overwrite && copy Depencies\x86_ld.exe Evie_Installer-win32-x64 && copy Depencies\x86_as.exe Evie_Installer-win32-x64 && mkdir "Evie_installer-win32-x64/.Repos" && copy NSI.nsi Evie_Installer-win32-x64 && copy Evie_Installer_License.txt Evie_Installer-win32-x64
