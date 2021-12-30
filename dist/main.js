@@ -107,7 +107,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Get_Compiler_Release = exports.Get_Launcher_Release = exports.RESPONSE = void 0;
+exports.Sleep = exports.Get_Compiler_Release = exports.Get_Launcher_Release = exports.RESPONSE = void 0;
 var RESPONSE;
 (function (RESPONSE) {
     RESPONSE[RESPONSE["NULL"] = 0] = "NULL";
@@ -115,6 +115,7 @@ var RESPONSE;
     RESPONSE[RESPONSE["NEED_UPDATE_EVIE"] = 2] = "NEED_UPDATE_EVIE";
     RESPONSE[RESPONSE["NEED_INSTALL_GIT"] = 3] = "NEED_INSTALL_GIT";
     RESPONSE[RESPONSE["NEED_INSTALL_WINGET"] = 4] = "NEED_INSTALL_WINGET";
+    RESPONSE[RESPONSE["CANNOT_SET_STARTUP"] = 5] = "CANNOT_SET_STARTUP";
 })(RESPONSE = exports.RESPONSE || (exports.RESPONSE = {}));
 function Get_Launcher_Release() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -130,6 +131,10 @@ function Get_Compiler_Release() {
     });
 }
 exports.Get_Compiler_Release = Get_Compiler_Release;
+function Sleep(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+exports.Sleep = Sleep;
 
 
 /***/ }),
@@ -161,6 +166,16 @@ module.exports = require("electron");
 /***/ ((module) => {
 
 module.exports = require("original-fs");
+
+/***/ }),
+
+/***/ "path":
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("path");
 
 /***/ })
 
@@ -202,21 +217,30 @@ var exports = __webpack_exports__;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const electron_1 = __webpack_require__(/*! electron */ "electron");
 const Update_Launcher_1 = __webpack_require__(/*! ./app/Update_Launcher */ "./src/app/Update_Launcher.ts");
+const path_1 = __webpack_require__(/*! path */ "path");
 if (process.argv.length > 1 && process.argv[1] === '--Remove_Old_Launcher') {
     (0, Update_Launcher_1.Remove_Old_Launcher)();
 }
 const createWindow = () => {
     let win = new electron_1.BrowserWindow({
         width: 400,
-        height: 100,
+        height: 150,
+        title: 'Evie Installer',
+        icon: (0, path_1.join)(__dirname, 'Logo.ico'),
         titleBarStyle: 'hidden',
-        resizable: false,
+        show: false,
+        resizable: true,
+        frame: false,
+        transparent: true,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
         }
     });
-    win.loadFile('index.html');
+    win.loadFile((0, path_1.join)(__dirname, 'index.html'));
+    win.webContents.once('did-finish-load', () => {
+        win.show();
+    });
 };
 electron_1.app.on('ready', createWindow);
 electron_1.ipcMain.on('Close', () => {

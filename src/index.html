@@ -5,11 +5,78 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Evie Installer</title>
+
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="Evie">
+    Evie
+  </div>
+  <div id="Container">
+    <div id="root"></div>
+  </div>
 </body>
+<style>
+  /* The animation code */
+  @keyframes Evie_animation {
+    0%   {color:transparent; left:0px; top:0px;}
+    100%   {color:rgb(255, 0, 242); left:0px; top:0px; }
+  }
+  @keyframes Root_animation {
+    0%   {width: 0%;  height: 100%;  left:0px; top:0px;}
+    100%   {  width: 100%;  height: 100%;  left:0px; top:0px; }
+  }
 
+  /* The element to apply the animation to */
+  body {
+    background-color: transparent;
+    height: 100%;
+  }
+
+  #root{
+    display: none;
+    background-color: black;
+    justify-content: center;
+  }
+
+  #Container{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+  }
+
+  #Evie {
+    position: absolute;
+    text-align: center;
+    font-size: 6em;
+    width: 100%;
+    height: 100%;
+
+    animation-name: Evie_animation;
+    animation-duration: 1s;
+  }
+</style>
+<script>
+  var Evie = document.getElementById('Evie');
+  var root = document.getElementById('root');
+  var body = document.getElementsByTagName('body')[0];
+  var Evie_animation = document.getElementById('Evie_animation');
+  var root_animation = document.getElementById('root_animation');
+  var Container = document.getElementById('Container');
+
+  Evie.addEventListener('animationend', function() {
+    root.style.display = 'flex';
+    Evie.style.display = 'none';
+    body.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+    root.style.animationName = 'Root_animation';
+    root.style.animationDuration = '4s';
+  });
+
+  root.addEventListener('animationend', function() {
+    root.style.width = '100%';
+    root.style.display = 'block';
+    root.style.backgroundColor = 'rgb(0, 0, 0)';
+  });
+</script>
 </html>
