@@ -1,10 +1,10 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { Remove_Old_Launcher } from './app/Update_Launcher';
+//import { Remove_Old_Launcher } from './app/Update_Launcher';
 import { join } from 'path';
 
-if (process.argv.length > 1 && process.argv[1] === '--Remove_Old_Launcher'){
-    Remove_Old_Launcher()
-}
+// if (process.argv.length > 1 && process.argv[1] === '--Remove_Old_Launcher'){
+//     Remove_Old_Launcher()
+// }
 
 const createWindow = (): void => {
   let win = new BrowserWindow({

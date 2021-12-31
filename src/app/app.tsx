@@ -53,9 +53,9 @@ async function Factory(Set_Phase: any, Set_Description: any, Update_Progress: an
     }
   }
 
-  //  setTimeout(() => {
-  //    ipcRenderer.send("Close");
-  //  }, 1000);
+  setTimeout(() => {
+    ipcRenderer.send("Close");
+  }, 1000);
 
 }
 

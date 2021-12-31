@@ -1,6 +1,7 @@
 import { access, accessSync, constants, fstat, promises as fs } from "original-fs";
 import { exec } from "child_process";
 import { Get_Launcher_Release, RESPONSE } from "./Utils";
+import { ipcRenderer } from "electron";
 
 
 
@@ -52,15 +53,20 @@ async function Download_Launcher(Release: any){
     await fs.writeFile('./Evie_Installer_New.exe', new Uint8Array(Buffer))
     //now startup the executable.
     await fs.chmod('./Evie_Installer_New.exe', 0o755)
-    exec('./Evie_Installer_New.exe --Remove_Old_Launcher')
+    exec('Evie_Installer_New.exe', (i) => {
+        alert(i)
+        ipcRenderer.send('Close')
+    })
+
+    //exec('./Evie_Installer_New.exe --Remove_Old_Launcher')
 }
 
-export async function Remove_Old_Launcher(){
-    //remove the old launcher.
-    await fs.unlink('./Evie_Installer.exe')
-    //rename the new launcher to the old launcher.
-    await fs.rename('./Evie_Installer_New.exe', './Evie_Installer.exe')
-    //releanch this launcher so that it doesnt have the _new postfix init.
-    await fs.chmod('./Evie_Installer.exe', 0o755)
-    exec('./Evie_Installer.exe')
-}
+// export async function Remove_Old_Launcher(){
+//     //remove the old launcher.
+//     await fs.unlink('./Evie_Installer.exe')
+//     //rename the new launcher to the old launcher.
+//     await fs.rename('./Evie_Installer_New.exe', './Evie_Installer.exe')
+//     //releanch this launcher so that it doesnt have the _new postfix init.
+//     await fs.chmod('./Evie_Installer.exe', 0o755)
+//     exec('./Evie_Installer.exe')
+// }

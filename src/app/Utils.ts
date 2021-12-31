@@ -8,12 +8,12 @@ export enum RESPONSE{
 }
 
 export async function Get_Launcher_Release(){
-    const response = await fetch('https://api.github.com/repos/Gabidal/Evie_Installer/releases/latest');
-    return await response.json();
+    const response = await fetch('https://api.github.com/repos/Gabidal/Evie_Installer/releases');
+    return (await response.json() as any[])[0];
 }
 export async function Get_Compiler_Release(){
-    const response = await fetch('https://api.github.com/repos/Gabidal/Evie/releases/latest');
-    return await response.json();
+    const response = await fetch('https://api.github.com/repos/Gabidal/Evie/releases');
+    return (await response.json() as any[])[0];
 }
 
 export function Sleep(time: number){

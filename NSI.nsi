@@ -3,8 +3,8 @@ OutFile "installer.exe"
 InstallDir $APPDATA\$(^Name)
 RequestExecutionLevel user
 
-!include "MUI2.nsh"
-!define MUI2_ICON "resources\app\src\Logo.ico"
+!include "MUI.nsh"
+!define MUI_ICON "resources\app\src\Logo.ico"
 
 ;Define the step pages for the installer
 Page components
@@ -43,8 +43,8 @@ Section "Start Menu Shortcuts"
 
   CreateDirectory "$SMPROGRAMS\Evie_Installer"
   CreateShortcut "$SMPROGRAMS\Evie_Installer\Uninstall_Evie_Installer.lnk" "$INSTDIR\Uninstall_Evie_Installer.exe" "" "$INSTDIR\Uninstall_Evie_Installer.exe" 0
+  CreateShortcut "$SMPROGRAMS\Startup\Evie_Installer.lnk" "$INSTDIR\Evie_Installer.exe" "" "$INSTDIR\Evie_Installer.exe" 0
   CreateShortcut "$SMPROGRAMS\Evie_Installer\Evie_Installer.lnk" "$INSTDIR\Evie_Installer.exe" "" "$INSTDIR\Evie_Installer.exe" 0
-  
 SectionEnd
 
 Section "Uninstall"
