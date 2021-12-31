@@ -1,3 +1,7 @@
 node_modules/
 package-lock.json
 Evie_Installer-win32-x64/
+Compiler_Version.txt
+Launcher_Version.txt
+Evie.exe
+Evie_Installer.exe

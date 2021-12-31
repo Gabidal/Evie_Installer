@@ -1,1 +1,0 @@
-"$Env:Path;C:\Users\Quanf\source\repos\Evie_Installer;" 
