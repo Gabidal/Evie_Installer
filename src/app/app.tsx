@@ -9,7 +9,7 @@ import { Get_Git, Start_Installing_Git } from './Get_Git';
 import { Get_WinGet, Start_Installing_WinGet} from './Get_WinGet';
 import { ipcRenderer } from 'electron';
 import { Check_For_Environment_Values } from './Set_Environment_Values';
-import { Start_Up } from './Start_Up';
+//import { Start_Up } from './Start_Up';
 import { Add_To_Context_Menu } from './Add_To_Context_Menu';
 
 const processes = [
@@ -18,13 +18,13 @@ const processes = [
   {name: "Checking for WinGet", func:  Get_WinGet},
   {name: "Checking for github", func: Get_Git },
   {name: "Setting environment variables", func: Check_For_Environment_Values },
-  {name: "Setting launcher as startup", func: Start_Up},
+  //{name: "Setting launcher as startup", func: Start_Up},
   {name: "Setting compiler to context menu", func: Add_To_Context_Menu},
   {name: "Done!", func: () => RESPONSE.NULL },
 ]
 
 async function Factory(Set_Phase: any, Set_Description: any, Update_Progress: any) {
-  var Index = 0
+  var Index = 1
   for (const i of processes) {
     const Response = await i.func()
     Set_Phase(i.name)
@@ -87,7 +87,7 @@ export default function Main() {
         alignItems: "center",
     }}> */}
         <Typography variant='h6'>{Phase}</Typography>
-        <LinearProgress variant="determinate" value={(Progress + 1) / processes.length * 100} style={{width: "100%"}}/>
+        <LinearProgress variant="determinate" value={(Progress) / processes.length * 100} style={{width: "100%"}}/>
         <Typography variant='body2'>{Description}</Typography>
       
     </ThemeProvider>

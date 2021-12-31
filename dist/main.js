@@ -65,6 +65,8 @@ const path_1 = __webpack_require__(/*! path */ "path");
 //     Remove_Old_Launcher()
 // }
 const createWindow = () => {
+    // exec("echo " + process.cwd() + " > $info1.txt")
+    // exec("echo " + __dirname + " > $info2.txt")
     let win = new electron_1.BrowserWindow({
         width: 400,
         height: 200,

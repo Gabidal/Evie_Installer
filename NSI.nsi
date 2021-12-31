@@ -3,13 +3,24 @@ OutFile "installer.exe"
 InstallDir $APPDATA\$(^Name)
 RequestExecutionLevel user
 
-!include "MUI.nsh"
-!define MUI_ICON "resources\app\src\Logo.ico"
+; !define MUI_FINISHPAGE_RUN "$INSTDIR\Evie_Installer.exe"
+; !define MUI_FINISHPAGE_RUN_TEXT "Launch Evie Installer"
 
 ;Define the step pages for the installer
 Page components
 Page directory
 Page instfiles
+
+!include "MUI2.nsh"
+!define MUI_ICON "resources\app\src\Logo.ico"
+!define MUI_FINISHPAGE_NOAUTOCLOSE
+!define MUI_FINISHPAGE_RUN
+;!define MUI_FINISHPAGE_RUN_NOTCHECKED
+!define MUI_FINISHPAGE_RUN_TEXT "Launch Evie Installer"
+!define MUI_FINISHPAGE_RUN_FUNCTION "LaunchLink"
+!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+;!define MUI_FINISHPAGE_SHOWREADME $INSTDIR\readme.txt
+!insertmacro MUI_PAGE_FINISH
 
 ;Define the unistaller pages.
 UninstPage uninstConfirm
@@ -63,3 +74,11 @@ Section "Uninstall"
   RMDir /r "$INSTDIR"
 
 SectionEnd
+
+Function LaunchLink
+  ; MessageBox MB_OK "Reached LaunchLink $\r$\n \
+  ;                  SMPROGRAMS: $SMPROGRAMS  $\r$\n \
+  ;                  Start Menu Folder: $STARTMENU_FOLDER $\r$\n \
+  ;                  InstallDirectory: $INSTDIR "
+  ExecShell "" "$SMPROGRAMS\Startup\Evie_Installer.lnk"
+FunctionEnd
