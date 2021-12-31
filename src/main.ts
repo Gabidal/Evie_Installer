@@ -9,7 +9,7 @@ if (process.argv.length > 1 && process.argv[1] === '--Remove_Old_Launcher'){
 const createWindow = (): void => {
   let win = new BrowserWindow({
     width: 400,
-    height: 150,
+    height: 200,
     title: 'Evie Installer',
     icon: join(__dirname, 'Logo.ico'),
 

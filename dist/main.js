@@ -194,7 +194,7 @@ if (process.argv.length > 1 && process.argv[1] === '--Remove_Old_Launcher') {
 const createWindow = () => {
     let win = new electron_1.BrowserWindow({
         width: 400,
-        height: 150,
+        height: 200,
         title: 'Evie Installer',
         icon: (0, path_1.join)(__dirname, 'Logo.ico'),
         titleBarStyle: 'hidden',

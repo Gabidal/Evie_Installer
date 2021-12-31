@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%">
 
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,7 @@
 
 <script defer src="renderer.js"></script></head>
 
-<body>
+<body id="Body">
   <div id="Evie">
     Evie
   </div>
@@ -21,9 +21,16 @@
   /* The animation code */
   @keyframes Evie_animation {
     0%   {color:transparent; left:0px; top:0px;}
-    100%   {color:rgb(255, 0, 242); left:0px; top:0px; }
+    50%   {color:rgb(255, 0, 242); left:0px; top:0px; }
+    100%   {color:transparent; left:0px; top:0px;}
   }
+
   @keyframes Root_animation {
+    0%   {width: 0%;  height: 100%;  left:0px; top:0px;}
+    100%   {  width: 100%;  height: 100%;  left:0px; top:0px; }
+  }
+
+  @keyframes Boot {
     0%   {width: 0%;  height: 100%;  left:0px; top:0px;}
     100%   {  width: 100%;  height: 100%;  left:0px; top:0px; }
   }
@@ -32,12 +39,14 @@
   body {
     background-color: transparent;
     height: 100%;
+    animation-name: Boot;
+    animation-duration: 1ms;
   }
 
   #root{
     display: none;
     background-color: black;
-    justify-content: center;
+    padding: 2em;
   }
 
   #Container{
@@ -47,14 +56,13 @@
   }
 
   #Evie {
+    display: none;
     position: absolute;
     text-align: center;
     font-size: 6em;
     width: 100%;
     height: 100%;
 
-    animation-name: Evie_animation;
-    animation-duration: 1s;
   }
 </style>
 <script>
@@ -65,17 +73,28 @@
   var root_animation = document.getElementById('root_animation');
   var Container = document.getElementById('Container');
 
+  body.addEventListener('animationend', function(){
+    Evie.style.display = 'block';
+    Evie.style.animationDuration = '4s';
+    Evie.style.animationName = 'Evie_animation';
+  })
+
   Evie.addEventListener('animationend', function() {
-    root.style.display = 'flex';
+    //body.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+    Evie.style.color = 'rgba(0, 0, 0, 0)';
     Evie.style.display = 'none';
-    body.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+    root.style.display = 'flex';
+    root.style.justifyContent = 'center';
+    root.style.alignItems = 'center';
+    root.style.flexDirection = 'column';
+    root.style.height = '100%'
+    root.style.animationDuration = '2s';
     root.style.animationName = 'Root_animation';
-    root.style.animationDuration = '4s';
   });
+
 
   root.addEventListener('animationend', function() {
     root.style.width = '100%';
-    root.style.display = 'block';
     root.style.backgroundColor = 'rgb(0, 0, 0)';
   });
 </script>

@@ -30,7 +30,7 @@ async function Factory(Set_Phase: any, Set_Description: any, Update_Progress: an
     Set_Phase(i.name)
     Update_Progress(Index)
     console.log(i.name, Response)
-    await Sleep(300)
+    await Sleep(500)
     Index++
     if (Response == RESPONSE.NEED_UPDATE_LAUNCHER){
       Set_Description("An update was found for this launcher, an update is required to continue")
@@ -53,9 +53,9 @@ async function Factory(Set_Phase: any, Set_Description: any, Update_Progress: an
     }
   }
 
-   setTimeout(() => {
-     ipcRenderer.send("Close");
-   }, 1000);
+  //  setTimeout(() => {
+  //    ipcRenderer.send("Close");
+  //  }, 1000);
 
 }
 
@@ -73,23 +73,23 @@ export default function Main() {
   React.useEffect(() => {
     setTimeout(() => {
       Factory(Set_Phase, Set_Description, Update_Progress)
-    }, 5000);
+    }, 6000);
   }, [])
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div style={{
+      {/* <div style={{
         padding: "2em",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-    }}>
+    }}> */}
         <Typography variant='h6'>{Phase}</Typography>
         <LinearProgress variant="determinate" value={(Progress + 1) / processes.length * 100} style={{width: "100%"}}/>
         <Typography variant='body2'>{Description}</Typography>
-      </div>
+      
     </ThemeProvider>
   )
 }
