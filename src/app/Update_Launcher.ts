@@ -11,14 +11,14 @@ export async function Update_Launcher(Set_Description: any): Promise<RESPONSE> {
 
     const exists = await fs.access(Launcher_Version_File_Name, constants.F_OK).then(() => true).catch(() => false)
     
+    const Latest_Release = await Get_Launcher_Release()
+    const Release_Version = new Date(Latest_Release.published_at)
     //this means that the launcher version exists and that we can fetch a new one from github.
     if (exists){
         const version = new Date((await fs.readFile(Launcher_Version_File_Name)).toString('utf8'))
         //now check if the version got from the latest release is greater than this launchers version.
         //this launcher version is got from the Launcher_Version.txt file.
         //read the version string from the file.
-        const Latest_Release = await Get_Launcher_Release()
-        const Release_Version = new Date(Latest_Release.published_at)
 
         if (Release_Version > version){
             Set_Description("An update is available.")
@@ -29,7 +29,7 @@ export async function Update_Launcher(Set_Description: any): Promise<RESPONSE> {
         //if the launcher version file does not exist.
         //this means that this is the first time that the launcher is being run.
         //so we need to create the launcher version file.
-        await fs.writeFile(Launcher_Version_File_Name, new Date().toString())
+        await fs.writeFile(Launcher_Version_File_Name, Release_Version.toString())
     }
 
     return RESPONSE.NULL
