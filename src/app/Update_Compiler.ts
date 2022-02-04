@@ -6,7 +6,7 @@ import { Get_Launcher_Release, Get_Compiler_Release, RESPONSE } from "./Utils";
 
 const Compiler_Version_File_Name = "./Compiler_Version.txt";
 
-export async function Update_Compiler(): Promise<RESPONSE> {
+export async function Update_Compiler(Set_Description: any): Promise<RESPONSE> {
 
     const exists = await fs.access(Compiler_Version_File_Name, constants.F_OK).then(() => true).catch(() => false)
 
@@ -20,6 +20,7 @@ export async function Update_Compiler(): Promise<RESPONSE> {
         const Release_Version = new Date(Latest_Release.published_at)
 
         if (Release_Version > version){
+            Set_Description("An update is available.")
             return RESPONSE.NEED_UPDATE_EVIE
         }
     }
@@ -33,7 +34,8 @@ export async function Update_Compiler(): Promise<RESPONSE> {
     return RESPONSE.NULL
 }
 
-export async function Start_Compiler_Update(){
+export async function Start_Compiler_Update(Set_Description: any){
+    Set_Description("Fetching Latest Compiler...")
     const Latest_Release = await Get_Compiler_Release()
     const Release_Version = new Date(Latest_Release.published_at)
     //we need to update the Compiler.
@@ -41,15 +43,17 @@ export async function Start_Compiler_Update(){
     await fs.unlink(Compiler_Version_File_Name)
     await fs.writeFile(Compiler_Version_File_Name, Release_Version.toString())
     //now we need to download the new Compiler.
-    await Download_Compiler(Latest_Release)
+    await Download_Compiler(Latest_Release, Set_Description)
 } 
 
-async function Download_Compiler(Release: any){
+async function Download_Compiler(Release: any, Set_Description: any){
     const Download_Link = Release.assets[0].browser_download_url
+    Set_Description("Downloading Compiler...")
     const Download_Response = await fetch(Download_Link)
     //Start the downloaded executable. and at the same time stop this Compiler.
     const Buffer = await Download_Response.arrayBuffer()
     try{
+        Set_Description("Installing Compiler...")
         await fs.writeFile('./Evie.exe', new Uint8Array(Buffer))
         await fs.chmod('./Evie.exe', 0o755)
     }catch(e){

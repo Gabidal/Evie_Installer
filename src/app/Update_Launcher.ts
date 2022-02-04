@@ -7,11 +7,11 @@ import { ipcRenderer } from "electron";
 
 const Launcher_Version_File_Name = "./Launcher_Version.txt";
 
-export async function Update_Launcher(): Promise<RESPONSE> {
+export async function Update_Launcher(Set_Description: any): Promise<RESPONSE> {
 
     const exists = await fs.access(Launcher_Version_File_Name, constants.F_OK).then(() => true).catch(() => false)
     
-    //this means that the launcher version existsm and that we can fetch a new one from github.
+    //this means that the launcher version exists and that we can fetch a new one from github.
     if (exists){
         const version = new Date((await fs.readFile(Launcher_Version_File_Name)).toString('utf8'))
         //now check if the version got from the latest release is greater than this launchers version.
@@ -21,6 +21,7 @@ export async function Update_Launcher(): Promise<RESPONSE> {
         const Release_Version = new Date(Latest_Release.published_at)
 
         if (Release_Version > version){
+            Set_Description("An update is available.")
             return RESPONSE.NEED_UPDATE_LAUNCHER
         }
     }
@@ -34,7 +35,8 @@ export async function Update_Launcher(): Promise<RESPONSE> {
     return RESPONSE.NULL
 }
 
-export async function Start_Launcher_Update(){
+export async function Start_Launcher_Update(Set_Description: any){
+    Set_Description("Fetching Latest Launcher...")
     const Latest_Release = await Get_Launcher_Release()
     const Release_Version = new Date(Latest_Release.published_at)
     //we need to update the launcher.
@@ -42,14 +44,16 @@ export async function Start_Launcher_Update(){
     await fs.unlink(Launcher_Version_File_Name)
     await fs.writeFile(Launcher_Version_File_Name, Release_Version.toString())
     //now we need to download the new launcher.
-    await Download_Launcher(Latest_Release)
+    await Download_Launcher(Latest_Release, Set_Description)
 } 
 
-async function Download_Launcher(Release: any){
+async function Download_Launcher(Release: any, Set_Description: any){
     const Download_Link = Release.assets[0].browser_download_url
+    Set_Description("Downloading Launcher...")
     const Download_Response = await fetch(Download_Link)
     //Start the downloaded executable. and at the same time stop this launcher.
     const Buffer = await Download_Response.arrayBuffer()
+    Set_Description("Replacing Launcher...")
     await fs.writeFile('./Evie_Installer_New.exe', new Uint8Array(Buffer))
     //now startup the executable.
     await fs.chmod('./Evie_Installer_New.exe', 0o755)

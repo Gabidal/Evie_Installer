@@ -26,27 +26,30 @@ const processes = [
 async function Factory(Set_Phase: any, Set_Description: any, Update_Progress: any) {
   var Index = 1
   for (const i of processes) {
-    const Response = await i.func()
+    const Response = await i.func(Set_Description)
     Set_Phase(i.name)
     Update_Progress(Index)
     console.log(i.name, Response)
     await Sleep(500)
     Index++
+    if (i.name == "Done!"){
+      Set_Description("")
+    }
     if (Response == RESPONSE.NEED_UPDATE_LAUNCHER){
       Set_Description("An update was found for this launcher, an update is required to continue")
-      await Start_Launcher_Update()
+      await Start_Launcher_Update(Set_Description)
     }
     if (Response == RESPONSE.NEED_UPDATE_EVIE){
       Set_Description("An update was found for Evie, an update is required to continue")
-      await Start_Compiler_Update()
+      await Start_Compiler_Update(Set_Description)
     }
     if (Response == RESPONSE.NEED_INSTALL_WINGET){
       Set_Description("Winget was not found, initiating installation")
-      await Start_Installing_WinGet()
+      await Start_Installing_WinGet(Set_Description)
     }
     if (Response == RESPONSE.NEED_INSTALL_GIT){
       Set_Description("Git was not found, initiating installation")
-      await Start_Installing_Git()
+      await Start_Installing_Git(Set_Description)
     }
     if (Response == RESPONSE.CANNOT_SET_STARTUP){
       Set_Description("Cannot set this launcher as startup, please do so manually")
@@ -72,7 +75,10 @@ export default function Main() {
 
   React.useEffect(() => {
     setTimeout(() => {
-      Factory(Set_Phase, Set_Description, Update_Progress)
+      Set_Phase("Waiting for internet connection...")
+      setTimeout(() => {
+        Factory(Set_Phase, Set_Description, Update_Progress)
+      }, 1000);
     }, 6000);
   }, [])
 
