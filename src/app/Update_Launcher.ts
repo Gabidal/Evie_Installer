@@ -3,8 +3,6 @@ import { exec } from "child_process";
 import { Get_Launcher_Release, RESPONSE } from "./Utils";
 import { ipcRenderer } from "electron";
 
-
-
 const Launcher_Version_File_Name = "./Launcher_Version.txt";
 
 export async function Update_Launcher(Set_Description: any): Promise<RESPONSE> {

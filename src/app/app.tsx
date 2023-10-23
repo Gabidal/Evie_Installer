@@ -11,6 +11,8 @@ import { ipcRenderer } from 'electron';
 import { Check_For_Environment_Values } from './Set_Environment_Values';
 //import { Start_Up } from './Start_Up';
 import { Add_To_Context_Menu } from './Add_To_Context_Menu';
+import { resolve } from 'dns';
+import dns from 'dns';
 
 const processes = [
   {name: "Updating the launcher", func: Update_Launcher },
@@ -25,6 +27,9 @@ const processes = [
 
 async function Factory(Set_Phase: any, Set_Description: any, Update_Progress: any) {
   var Index = 1
+
+  await Wait_For_Internet_Connection()
+
   for (const i of processes) {
     const Response = await i.func(Set_Description)
     Set_Phase(i.name)
@@ -60,6 +65,15 @@ async function Factory(Set_Phase: any, Set_Description: any, Update_Progress: an
     ipcRenderer.send("Close");
   }, 1000);
 
+}
+
+async function Wait_For_Internet_Connection(){
+  while (true){
+    const List = await dns.promises.resolveAny('google.com');
+    if (List.length > 0){
+      return
+    }
+  }
 }
 
 const theme = createTheme({

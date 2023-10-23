@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" style="height: 100%">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Evie Installer</title>
-
-<script defer src="renderer.js"></script></head>
-
-<body id="Body">
-  <div id="Evie">
-    Evie
-  </div>
-  <div id="Container">
-    <div id="root"></div>
-  </div>
-</body>
-<style>
-  /* The animation code */
+<!doctype html><html lang="en" style="height: 100%"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Evie Installer</title><script defer="defer" src="renderer.js"></script></head><body id="Body"><div id="Evie">Evie</div><div id="Container"><div id="root"></div></div></body><style>/* The animation code */
   @keyframes Evie_animation {
     0%   {color:transparent; left:0px; top:0px;}
     50%   {color:rgb(255, 0, 242); left:0px; top:0px; }
@@ -63,10 +43,7 @@
     width: 100%;
     height: 100%;
 
-  }
-</style>
-<script>
-  var Evie = document.getElementById('Evie');
+  }</style><script>var Evie = document.getElementById('Evie');
   var root = document.getElementById('root');
   var body = document.getElementsByTagName('body')[0];
   var Evie_animation = document.getElementById('Evie_animation');
@@ -96,6 +73,4 @@
   root.addEventListener('animationend', function() {
     root.style.width = '100%';
     root.style.backgroundColor = 'rgb(0, 0, 0)';
-  });
-</script>
-</html>
+  });</script></html>

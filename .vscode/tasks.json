@@ -1,12 +1,38 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
-        {
-            "label": "webpack",
-            "command": "webpack",
-            "args": []
+      {
+        "label": "Build and Package Electron App",
+        "type": "shell",
+        "command": "npm",
+        "args": [
+          "run", "build"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
         }
+      },
+      {
+        "label": "Electron Packager",
+        "type": "shell",
+        "command": "electron-packager.cmd",
+        "args": [
+          ".", "Evie_Installer",
+          "--platform=win32",
+          "--arch=x64",
+          "--overwrite",
+          "--icon=./src/Logo.ico"
+        ],
+        "dependsOn": "Build and Package Electron App",
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        }
+      }
     ]
-}
+  }
